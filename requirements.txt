@@ -1,5 +1,4 @@
-ECHO is on.
-aiogram 
-gTTS 
-deep_translator 
-python-dotenv 
+aiogram
+gTTS
+deep_translator
+python-dotenv
