@@ -1,5 +1,5 @@
 import asyncio
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher, types, F
 from deep_translator import GoogleTranslator
 from gtts import gTTS
 from config import TOKEN
@@ -7,9 +7,10 @@ from config import TOKEN
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
-@dp.message()
-async def translate(msg: types.Message):
-    text = msg.text.strip()
+
+@dp.message(F.text)
+async def translate(message: types.Message):
+    text = message.text.strip()
 
     # Tilni aniqlash
     if any(ch in "äöüß" for ch in text.lower()):
@@ -21,14 +22,15 @@ async def translate(msg: types.Message):
 
     translated = GoogleTranslator(source=source, target=target).translate(text)
 
-    await msg.answer(f"Tarjima:\n\n{translated}")
+    await message.answer(f"Tarjima:\n\n{translated}")
 
-    # Agar tarjima nemischa bo‘lsa — ovoz chiqaramiz
+    # Nemischa bo‘lsa ovoz chiqaramiz
     if target == "de":
         tts = gTTS(translated, lang="de")
         file = "tts/audio.mp3"
         tts.save(file)
-        await msg.answer_voice(types.FSInputFile(file))
+
+        await message.answer_voice(voice=types.FSInputFile(file))
 
 
 async def main():
