@@ -1,4 +1,4 @@
-aiogram
-gTTS
-deep_translator
-python-dotenv
+aiogram==3.4.1
+gTTS==2.3.2
+deep-translator==1.11.4
+python-dotenv==1.0.1
